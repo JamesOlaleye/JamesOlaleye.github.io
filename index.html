@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Olanipekun</title>
+<meta name="description" content="James Olanipekun — Senior Backend Engineer building secure, high-throughput banking and fintech systems in .NET and Node.js.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a banker's ledger at night — navy page, gold rule lines, every claim set like a posted entry. */
+:root{
+  --ink:#0d1828;        /* page */
+  --panel:#13223a;      /* raised surfaces */
+  --rule:#26395a;       /* ledger lines */
+  --paper:#ece6d8;      /* primary text */
+  --muted:#93a3bb;      /* secondary text */
+  --gold:#d6a93e;       /* accent */
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:-.01em}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{font-family:var(--display);font-weight:700;font-size:20px;text-decoration:none;letter-spacing:.02em}
+.brand span{color:var(--gold)}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:15px}
+nav ul a{text-decoration:none;color:var(--muted)}
+nav ul a:hover{color:var(--paper)}
+@media (max-width:640px){nav ul{gap:16px;font-size:14px}nav ul li.hide-sm{display:none}}
+
+/* hero */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--rule)}
+.hero .wrap{display:grid;grid-template-columns:1.35fr .9fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,72px);line-height:1.02;margin:18px 0 22px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.hero p.lede{font-size:19px;color:var(--muted);max-width:56ch;margin:0 0 30px}
+.hero p.lede b{color:var(--paper);font-weight:500}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:3px;font-weight:500;font-size:15px;text-decoration:none;border:1px solid var(--gold);transition:background .2s,color .2s}
+.btn.solid{background:var(--gold);color:var(--ink)}
+.btn.solid:hover{background:transparent;color:var(--gold)}
+.btn.line{color:var(--paper);border-color:var(--rule)}
+.btn.line:hover{border-color:var(--gold)}
+.portrait{position:relative}
+.portrait img{display:block;width:100%;max-width:420px;margin-left:auto;border-radius:3px;filter:saturate(.92)}
+.portrait::before{content:"";position:absolute;inset:14px -14px -14px 14px;border:1px solid var(--gold);border-radius:3px;max-width:420px;margin-left:auto;z-index:-1}
+.portrait .tag{position:absolute;left:0;bottom:22px;background:var(--panel);border:1px solid var(--rule);padding:10px 14px;font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.5}
+.portrait .tag b{color:var(--paper);font-weight:500}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fbf86;margin-right:6px;box-shadow:0 0 0 0 rgba(95,191,134,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(95,191,134,0)}100%{box-shadow:0 0 0 0 rgba(95,191,134,0)}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.portrait{max-width:340px}.portrait img{margin-left:0}.portrait::before{margin-left:0}}
+
+/* ledger of numbers */
+.ledger{border-bottom:1px solid var(--rule)}
+.ledger .wrap{display:grid;grid-template-columns:repeat(5,1fr)}
+.entry{padding:28px 18px;border-left:1px solid var(--rule)}
+.entry:first-child{border-left:0;padding-left:0}
+.entry .n{font-family:var(--display);font-size:36px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.1}
+.entry .l{font-size:14px;color:var(--muted);margin-top:6px}
+@media (max-width:860px){.ledger .wrap{grid-template-columns:repeat(2,1fr)}.entry{border-left:0;border-top:1px solid var(--rule);padding-left:0}.entry:nth-child(-n+2){border-top:0}}
+
+section{padding:88px 0;border-bottom:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:44px;align-items:end}
+.sec-head h2{font-size:clamp(30px,4vw,44px);line-height:1.1}
+.sec-head p{margin:12px 0 0;color:var(--muted);max-width:60ch}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr;gap:10px}}
+
+/* case studies */
+.cases{display:grid;gap:22px}
+.case{display:grid;grid-template-columns:220px 1fr 260px;gap:40px;padding:34px 0;border-top:1px solid var(--rule)}
+.case:first-child{border-top:0;padding-top:0}
+.case .meta{font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.7}
+.case .meta b{display:block;color:var(--gold);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.case h3{font-size:30px;line-height:1.15;margin-bottom:6px}
+.case .role{color:var(--gold);font-size:15px;margin-bottom:14px}
+.case ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.case li{padding-left:22px;position:relative;max-width:62ch}
+.case li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:1px;background:var(--gold)}
+.case .side{display:flex;flex-direction:column;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:12px;padding:4px 9px;border:1px solid var(--rule);border-radius:2px;color:var(--muted)}
+.stores{display:flex;flex-direction:column;gap:8px}
+.store{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--rule);border-radius:3px;text-decoration:none;font-size:14px;transition:border-color .2s}
+.store:hover{border-color:var(--gold)}
+.store span{color:var(--gold);font-family:var(--mono)}
+@media (max-width:960px){.case{grid-template-columns:1fr;gap:16px}}
+
+/* experience */
+.xp{display:grid}
+.job{display:grid;grid-template-columns:220px 1fr;gap:40px;padding:22px 0;border-top:1px solid var(--rule)}
+.job:first-child{border-top:0}
+.job .when{font-family:var(--mono);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.job h3{font-family:var(--body);font-size:18px;font-weight:600;letter-spacing:0}
+.job h3 i{font-style:normal;color:var(--gold);font-weight:500}
+.job p{margin:6px 0 0;color:var(--muted);max-width:70ch}
+.job .tech{font-family:var(--mono);font-size:13px;color:var(--gold);opacity:.85;margin-top:6px}
+@media (max-width:760px){.job{grid-template-columns:1fr;gap:4px}}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.group{background:var(--ink);padding:24px}
+.group h3{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.group p{margin:0;color:var(--paper);font-size:16px}
+
+/* principles */
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.principle .k{font-family:var(--mono);color:var(--gold);font-size:14px}
+.principle h3{font-size:24px;margin:8px 0 10px}
+.principle p{margin:0;color:var(--muted)}
+@media (max-width:860px){.principles{grid-template-columns:1fr;gap:28px}}
+
+/* contact */
+.contact{border-bottom:0;padding-bottom:64px}
+.contact h2{font-size:clamp(34px,5vw,58px);line-height:1.05;max-width:18ch}
+.contact h2 em{font-style:italic;font-weight:400;color:var(--gold)}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:40px}
+.contact-grid a{background:var(--ink);padding:22px;text-decoration:none;display:block;transition:background .2s}
+.contact-grid a:hover{background:var(--panel)}
+.contact-grid small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.contact-grid span{word-break:break-word}
+@media (max-width:760px){.contact-grid{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--rule);padding:24px 0;font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">J<span>.</span>Olanipekun</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li class="hide-sm"><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Senior Backend Engineer · .NET &amp; Node.js</div>
+      <h1>Backend systems for banks, where every transaction <em>has to land.</em></h1>
+      <p class="lede">I'm James Olanipekun. For nearly 8 years I've built secure, high-throughput platforms in <b>C#/.NET</b> and <b>Node.js/TypeScript</b>, most recently for <b>First Bank of Nigeria</b> and <b>Lotus Bank</b>. Payment rails, core banking, microservices and the production incidents in between.</p>
+      <div class="cta">
+        <a class="btn solid" href="#work">See my work</a>
+        <a class="btn line" href="https://www.linkedin.com/in/james-olanipekun-0487a0344/">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <img src="james.jpg" alt="Portrait of James Olanipekun in a navy suit" width="520" height="598">
+      <div class="tag"><span class="dot" aria-hidden="true"></span><b>Open to remote roles</b><br>Lagos · UTC+1 · overlaps UK/EU hours</div>
+    </div>
+  </div>
+</header>
+
+<div class="ledger" aria-label="Highlights">
+  <div class="wrap">
+    <div class="entry"><div class="n">₦5B+</div><div class="l">processed through banking backends I built</div></div>
+    <div class="entry"><div class="n">57+</div><div class="l">bank branches running on my systems</div></div>
+    <div class="entry"><div class="n">10,000+</div><div class="l">merchants on payment and settlement flows</div></div>
+    <div class="entry"><div class="n">99.9%</div><div class="l">uptime on a fintech loan platform</div></div>
+    <div class="entry"><div class="n">−35%</div><div class="l">API latency after caching and query work</div></div>
+  </div>
+</div>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Selected work</div>
+      <div>
+        <h2>Live apps, real customers</h2>
+        <p>Three production apps in Nigerian banking and fintech. I worked on the backend: the services, data and integrations behind each screen.</p>
+      </div>
+    </div>
+
+    <div class="cases">
+      <article class="case">
+        <div class="meta"><b>01 · Tier-1 bank</b>First Bank of Nigeria<br>Oct 2026 – present<br>Contract</div>
+        <div>
+          <h3>LIT by FirstBank</h3>
+          <div class="role">Backend engineer, digital banking platform</div>
+          <ul>
+            <li>Driving performance optimization across the platform, improving speed and reliability for high-volume customer transactions.</li>
+            <li>Migrated the app's microservices from MSSQL to PostgreSQL, covering schema conversion, data integrity and query tuning.</li>
+            <li>Hardened security with centralized secrets management and data encryption, in line with banking compliance.</li>
+          </ul>
+        </div>
+        <div class="side">
+          <div class="chips"><span class="chip">C#</span><span class="chip">ASP.NET Core</span><span class="chip">PostgreSQL</span><span class="chip">MSSQL</span><span class="chip">Microservices</span><span class="chip">Vault</span></div>
+          <div class="stores">
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.firstbank.lit">Google Play <span>↗</span></a>
+            <a class="store" href="https://apps.apple.com/ng/app/lit-by-firstbank/id1558685984">App Store <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><b>02 · Commercial bank</b>Lotus Bank<br>Jan – Nov 2026<br>Contract</div>
+        <div>
+          <h3>Lotus Bank App</h3>
+          <div class="role">Backend lead, enterprise banking operations</div>
+          <ul>
+            <li>Led development of backend systems supporting 57+ branches and 10,000+ merchants, processing ₦5B+ across branch, merchant and collections workflows.</li>
+            <li>Integrated national and private payment rails (NIBSS NIP, Paystack, Expresspay) for interbank transfers and merchant settlements.</li>
+            <li>Built distributed job processing with Quartz.NET and Hangfire, using configurable distributed locks to stop race conditions across instances.</li>
+          </ul>
+        </div>
+        <div class="side">
+          <div class="chips"><span class="chip">C#</span><span class="chip">EF Core</span><span class="chip">Dapper</span><span class="chip">SQL Server</span><span class="chip">Redis</span><span class="chip">Hangfire</span><span class="chip">NIBSS NIP</span></div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/ng/app/lotus-bank-app/id1599550703">App Store <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><b>03 · Fintech, Techstars '23</b>VeendHQ<br>Jan 2024 – Dec 2025<br>Full-time</div>
+        <div>
+          <h3>Veend</h3>
+          <div class="role">Backend engineering lead, digital lending platform</div>
+          <ul>
+            <li>Architected a dual-stack loan platform (ASP.NET Core and Node.js/NestJS) for credit scoring, repayments and account profiling, serving 15,000+ users.</li>
+            <li>Cut API latency by 35% with Redis caching, BullMQ and Kafka queues, and database indexing.</li>
+            <li>Automated CI/CD on GitHub Actions, Docker and AWS ECS, with Prometheus and Grafana monitoring, reaching 99.9% uptime.</li>
+          </ul>
+        </div>
+        <div class="side">
+          <div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">NestJS</span><span class="chip">GraphQL</span><span class="chip">gRPC</span><span class="chip">Kafka</span><span class="chip">AWS ECS</span></div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/us/app/veend/id6470826772">App Store <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Experience</div>
+      <div><h2>Nearly 8 years, two stacks, one focus</h2></div>
+    </div>
+    <div class="xp">
+      <div class="job"><div class="when">10/2026 – Present</div><div><h3>Senior Software Developer · <i>First Bank of Nigeria</i></h3><p>Performance, data migration and security on a tier-1 digital banking platform.</p><div class="tech">C# · ASP.NET Core · PostgreSQL · MSSQL · Microservices</div></div></div>
+      <div class="job"><div class="when">01/2026 – 11/2026</div><div><h3>Senior Backend Developer · <i>Lotus Bank</i></h3><p>Core banking backends, payment rail integrations and distributed job scheduling.</p><div class="tech">C# · ASP.NET Core · EF Core · Dapper · SQL Server · Redis · Hangfire</div></div></div>
+      <div class="job"><div class="when">01/2024 – 12/2025</div><div><h3>Backend Engineer · <i>VeendHQ</i></h3><p>Led backend engineering for a loan management platform across .NET and Node.js.</p><div class="tech">ASP.NET Core · Blazor · Node.js · NestJS · GraphQL · gRPC · Kafka · AWS</div></div></div>
+      <div class="job"><div class="when">01/2023 – 12/2023</div><div><h3>Software Engineer · <i>Decagon</i></h3><p>RESTful APIs in .NET and Node.js; mentored 10+ junior developers.</p><div class="tech">.NET Core · ASP.NET MVC · Node.js · Express · MongoDB · React</div></div></div>
+      <div class="job"><div class="when">01/2022 – 12/2023</div><div><h3>Backend Engineer · <i>Alphacrunch Global</i></h3><p>Monolith-to-microservices migration, Kafka event streaming and a Fastify API gateway.</p><div class="tech">ASP.NET Core · NestJS · Fastify · Kafka · PostgreSQL · MongoDB</div></div></div>
+      <div class="job"><div class="when">01/2019 – 12/2021</div><div><h3>Full-Stack Developer · <i>BlueMatrix Systems</i></h3><p>.NET Core and Node.js microservices for 50K+ active users; led a squad of five engineers.</p><div class="tech">.NET Core · Node.js · Express · Azure Service Bus · Kafka · Redis · Oracle</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Stack</div>
+      <div><h2>What I build with</h2></div>
+    </div>
+    <div class="stack">
+      <div class="group"><h3>Backend</h3><p>C#, ASP.NET Core, EF Core, Dapper, Node.js, NestJS, Express, TypeScript</p></div>
+      <div class="group"><h3>Architecture</h3><p>Microservices, system design, event-driven, CQRS, DDD, Clean Architecture</p></div>
+      <div class="group"><h3>APIs &amp; messaging</h3><p>REST, GraphQL, gRPC, WebSockets, Kafka, RabbitMQ, BullMQ, Azure Service Bus</p></div>
+      <div class="group"><h3>Data</h3><p>PostgreSQL, SQL Server, Oracle, MongoDB, Redis</p></div>
+      <div class="group"><h3>Cloud &amp; DevOps</h3><p>AWS, Azure, Docker, GitHub Actions, CI/CD</p></div>
+      <div class="group"><h3>Security &amp; observability</h3><p>OAuth2, JWT, RBAC, OWASP, encryption, Vault, Prometheus, Grafana, OpenTelemetry</p></div>
+      <div class="group"><h3>Banking</h3><p>NIBSS NIP, Paystack, Expresspay, settlements, collections, core banking</p></div>
+      <div class="group"><h3>Frontend &amp; AI tooling</h3><p>React, Next.js, Angular · Claude Code, GitHub Copilot</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How I work</div>
+      <div><h2>Built for the day something fails</h2></div>
+    </div>
+    <div class="principles">
+      <div class="principle"><div class="k">01 / idempotency</div><h3>Every payment exactly once</h3><p>Retries, timeouts and duplicate callbacks are normal on payment rails. I design transfers and settlements so a retry never moves money twice.</p></div>
+      <div class="principle"><div class="k">02 / observability</div><h3>See it before customers do</h3><p>Metrics, structured logs and alerts go in with the feature, so incidents in live banking get found and fixed fast.</p></div>
+      <div class="principle"><div class="k">03 / security</div><h3>Secrets out of code</h3><p>Centralized secrets, encryption and least-privilege access are the default in regulated environments, not an afterthought.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow">Contact</div>
+    <h2 style="margin-top:14px">Hiring a backend engineer for fintech, payments, e-commerce, logistics, hospitality or SaaS? <em>Let's talk.</em></h2>
+    <div class="contact-grid">
+      <a href="mailto:jamesfullstackdeveloper@gmail.com"><small>Email</small><span>jamesfullstackdeveloper@gmail.com</span></a>
+      <a href="https://www.linkedin.com/in/james-olanipekun-0487a0344/"><small>LinkedIn</small><span>in/james-olanipekun-0487a0344 ↗</span></a>
+      <a href="https://github.com/JamesOlaleye"><small>GitHub</small><span>github.com/JamesOlaleye ↗</span></a>
+      <a href="https://wa.me/2349066321986"><small>WhatsApp</small><span>+234 906 632 1986 ↗</span></a>
+      <a href="tel:+2349066321986"><small>Call</small><span>+234 906 632 1986</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>© 2026 James Olanipekun</span><span class="mono">Lagos, Nigeria · UTC+1</span></div>
+</footer>
+
+</body>
+</html>
