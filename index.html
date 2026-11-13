@@ -49,7 +49,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:15px}
 nav ul a{text-decoration:none;color:var(--muted)}
 nav ul a:hover{color:var(--paper)}
-@media (max-width:640px){nav ul{gap:16px;font-size:14px}nav ul li.hide-sm{display:none}}
+@media (max-width:640px){nav ul{gap:14px;font-size:14px}nav ul li.hide-sm{display:none}.brand{font-size:17px}.portrait{max-width:300px}}
+@media (max-width:380px){nav ul li:nth-child(2){display:none}}
 
 /* hero */
 .hero{padding:72px 0 56px;border-bottom:1px solid var(--rule)}
@@ -65,7 +66,7 @@ nav ul a:hover{color:var(--paper)}
 .btn.line{color:var(--paper);border-color:var(--rule)}
 .btn.line:hover{border-color:var(--gold)}
 .portrait{position:relative}
-.portrait img{display:block;width:100%;max-width:420px;margin-left:auto;border-radius:3px;filter:saturate(.92)}
+.portrait img{display:block;width:100%;height:auto;max-width:420px;margin-left:auto;border-radius:3px;filter:saturate(.92)}
 .portrait::before{content:"";position:absolute;inset:14px -14px -14px 14px;border:1px solid var(--gold);border-radius:3px;max-width:420px;margin-left:auto;z-index:-1}
 .portrait .tag{position:absolute;left:0;bottom:22px;background:var(--panel);border:1px solid var(--rule);padding:10px 14px;font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.5}
 .portrait .tag b{color:var(--paper);font-weight:500}
